@@ -16,10 +16,22 @@ module.exports = {
     contentBase: './dist'
   },
 
+  plugins: [
+    new UglifyJsPlugin({ sourceMap: true }),
+    new CleanWebpackPlugin(['dist']),
+    new HtmlWebpackPlugin({
+      inject: 'body',
+      template: './src/index.html',
+      filename: 'index.html',
+      minify: {
+        removeComment: true,
+        collapseWhitespace: true
+      }
+    }),
+  ],
+
   module: {
-
     rules: [
-
       {
         test: /\.scss$/,
         use: [
@@ -50,27 +62,12 @@ module.exports = {
       },
       {
         test: /\.js$/,
-        exclude: /node_modules/,
+        exclude: [
+        /node_modules/,
+        /spec/
+        ],
         loader: "eslint-loader"
       },
     ]
   },
-
- plugins: [
-   new HtmlWebpackPlugin({
-    inject: 'body',
-    template: './src/index.html',
-    filename: 'index.html',
-    minify: {
-      removeComment: true,
-      collapseWhitespace: true
-    }
-  }),
-
-  new UglifyJsPlugin(),
-
-  new CleanWebpackPlugin(['dist'])
-
- ]
-
 };
