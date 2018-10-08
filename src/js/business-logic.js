@@ -1,5 +1,6 @@
-export class HungryBear {
+import $ from 'jquery';
 
+export class HungryBear {
   constructor(name) {
     this.name = name;
     this.foodLevel = 10;
@@ -12,6 +13,7 @@ export class HungryBear {
       if (this.foodLevel == 0) {
         clearInterval(hunger);
         console.log("Done!");
+        $('h1').toggleClass('hidden');
       } else {
         console.log("goin");
       }
@@ -27,6 +29,6 @@ export class HungryBear {
   }
 
   feed() {
-    this.foodLevel++;
+    this.foodLevel = 10;
   }
 }
