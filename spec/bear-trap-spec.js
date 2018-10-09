@@ -5,8 +5,10 @@ describe('HungryBear', function() {
 
   beforeEach(function() {
     jasmine.clock().install();
+    fuzzy.setTired();
     fuzzy.setHunger();
     fuzzy.foodLevel = 10;
+    fuzzy.tiredLevel = 15;
   });
 
   afterEach(function() {
@@ -26,11 +28,12 @@ describe('HungryBear', function() {
 
   it('should have a food level of ten if it is fed', function() {
     jasmine.clock().tick(9001);
-    fuzzy.feed();
+    fuzzy.feed(9);
 
     expect(fuzzy.foodLevel).toEqual(10);
 
   });
+
   it('should get very hungry if 10 seconds pass without feeding', function() {
     jasmine.clock().tick(10001);
     expect(fuzzy.didYouGetEaten()).toEqual(true);
@@ -38,9 +41,34 @@ describe('HungryBear', function() {
 
   it('should stop foodLevel at 0', function() {
     jasmine.clock().tick(12000);
-    alert(fuzzy.foodLevel);
     expect(fuzzy.foodLevel).toEqual(0);
+  });
+
+  it('should stop tiredLevel at 0', function() {
+    jasmine.clock().tick(17000);
+    expect(fuzzy.tiredLevel).toEqual(0);
+    console.log(fuzzy.foodLevel + ' , ' + fuzzy.tiredLevel);
+  });
+
+  it('should stop hunger dropping while tired level is zero', function() {
+    fuzzy.tiredLevel = 5;
+    jasmine.clock().tick(8000);
+    console.log(fuzzy.foodLevel + ' , ' + fuzzy.tiredLevel);
+    expect(fuzzy.foodLevel).toEqual(5);
+    // console.log(fuzzy.foodLevel+" , "+fuzzy.tiredLevel);
+  });
+
+  it('should restart hunger counter', function() {
+    fuzzy.tiredLevel = 5;
+    jasmine.clock().tick(12000);
+    console.log(fuzzy.foodLevel + ' , ' + fuzzy.tiredLevel);
+    expect(fuzzy.foodLevel).toEqual(3);
+    // console.log(fuzzy.foodLevel+" , "+fuzzy.tiredLevel);
   });
 
 
 });
+
+// if tiredLevel = 0:
+// set tired stop
+//set hunger stop
